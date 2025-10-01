@@ -6,16 +6,16 @@ async function main() {
   const [signer] = await ethers.getSigners();
   const FHECounter = await ethers.getContractAt("FHECounter", contractAddress);
 
-  // Şifreli input oluştur (örneğin 1 için)
+  // Create encrypted input (for example, for 1)
   const hre = require("hardhat");
   const encryptedInput = await hre.fhevm.createEncryptedInput(contractAddress, signer.address).add32(1).encrypt();
 
-  // increment fonksiyonunu çağır
+  // Call the increment function
   const tx = await FHECounter.increment(encryptedInput.handles[0], encryptedInput.inputProof);
   await tx.wait();
   console.log("increment(1) işlemi gönderildi ve onaylandı.");
 
-  // Sonucu oku ve deşifre et
+  // Read and decrypt the result
   const encryptedCount = await FHECounter.getCount();
   const clearCount = await hre.fhevm.userDecryptEuint(
     FhevmType.euint32,

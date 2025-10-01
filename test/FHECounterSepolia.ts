@@ -13,7 +13,7 @@ describe("FHECounterSepolia", function () {
     steps = 5;
     this.timeout(60000);
 
-    // Geçersiz handle ve proof ile increment çağrısı
+  // Invalid handle and proof for increment call
     const fakeHandle = "0x" + "00".repeat(32);
     const fakeProof = "0x";
 
@@ -25,7 +25,7 @@ describe("FHECounterSepolia", function () {
     steps = 10;
     this.timeout(120000);
 
-    // Mevcut sayaç değerini oku ve deşifre et
+  // Read and decrypt the current counter value
     const encryptedCountBefore = await fheCounterContract.getCount();
     const clearCountBefore = await fhevm.userDecryptEuint(
       FhevmType.euint32,
@@ -34,7 +34,7 @@ describe("FHECounterSepolia", function () {
       signers.alice,
     );
 
-    // Büyük değerle artır (ör: 1000)
+  // Increment by a large value (e.g., 1000)
     const bigValue = 1000;
     const encryptedBig = await fhevm
       .createEncryptedInput(fheCounterContractAddress, signers.alice.address)
@@ -43,7 +43,7 @@ describe("FHECounterSepolia", function () {
     let tx = await fheCounterContract.connect(signers.alice).increment(encryptedBig.handles[0], encryptedBig.inputProof);
     await tx.wait();
 
-    // Sonucu oku ve deşifre et
+  // Read and decrypt the result
     const encryptedCountAfter = await fheCounterContract.getCount();
     const clearCountAfter = await fhevm.userDecryptEuint(
       FhevmType.euint32,
@@ -61,17 +61,17 @@ describe("FHECounterSepolia", function () {
     const alice = ethSigners[0];
     const bob = ethSigners[1];
 
-    // Bob için şifreli input oluştur
+  // Create encrypted input for Bob
     const encryptedInputBob = await fhevm
       .createEncryptedInput(fheCounterContractAddress, bob.address)
       .add32(5)
       .encrypt();
 
-    // Bob sayaç değerini artırıyor
+  // Bob increments the counter
     let tx = await fheCounterContract.connect(bob).increment(encryptedInputBob.handles[0], encryptedInputBob.inputProof);
     await tx.wait();
 
-    // Sayaç değerini oku ve deşifre et (bob ile)
+  // Read and decrypt the counter value (with Bob)
     const encryptedCount = await fheCounterContract.getCount();
     const clearCount = await fhevm.userDecryptEuint(
       FhevmType.euint32,
@@ -84,9 +84,9 @@ describe("FHECounterSepolia", function () {
   });
   it("decrement the counter by 1", async function () {
     steps = 12;
-    this.timeout(120000); // 2 dakika
+  this.timeout(120000); // 2 minutes
 
-    // Mevcut sayaç değerini oku ve deşifre et
+  // Read and decrypt the current counter value
     const encryptedCountBefore = await fheCounterContract.getCount();
     const clearCountBefore = await fhevm.userDecryptEuint(
       FhevmType.euint32,
@@ -95,7 +95,7 @@ describe("FHECounterSepolia", function () {
       signers.alice,
     );
 
-    // Önce 1 artır
+  // First increment by 1
     const encryptedOne = await fhevm
       .createEncryptedInput(fheCounterContractAddress, signers.alice.address)
       .add32(1)
@@ -103,7 +103,7 @@ describe("FHECounterSepolia", function () {
     let tx = await fheCounterContract.connect(signers.alice).increment(encryptedOne.handles[0], encryptedOne.inputProof);
     await tx.wait();
 
-    // Sonra 1 azalt
+  // Then decrement by 1
     const encryptedOneDec = await fhevm
       .createEncryptedInput(fheCounterContractAddress, signers.alice.address)
       .add32(1)
@@ -111,7 +111,7 @@ describe("FHECounterSepolia", function () {
     tx = await fheCounterContract.connect(signers.alice).decrement(encryptedOneDec.handles[0], encryptedOneDec.inputProof);
     await tx.wait();
 
-    // Sonucu oku ve deşifre et
+  // Read and decrypt the result
     const encryptedCountAfter = await fheCounterContract.getCount();
     const clearCountAfter = await fhevm.userDecryptEuint(
       FhevmType.euint32,
