@@ -95,6 +95,29 @@ fhevm-hardhat-template/
 - [FHEVM Testing Guide](https://docs.zama.ai/protocol/solidity-guides/development-guide/hardhat/write_test)
 - [FHEVM Hardhat Plugin](https://docs.zama.ai/protocol/solidity-guides/development-guide/hardhat)
 
+## 📝 My FHEVM Project Experience
+
+### What I Did
+- Deployed the FHECounter smart contract to Sepolia testnet using Zama's FHEVM Hardhat template.
+- Deployed contract address (Sepolia): `0x43743cf81345D6406583F9dbb622d01d5A445d9E`
+- All tests and transactions were performed using wallet address: `0x20cDAd07152eF163CAd9Be2cDe1766298B883d71` (see Sepolia Etherscan for activity)
+- Configured environment variables securely with .env for private key and Sepolia RPC.
+- Used Hardhat and the FHEVM plugin for contract compilation, deployment, and testing.
+
+### Tests Performed
+- Successfully tested encrypted increment and decrement operations on the counter contract.
+- Verified contract behavior with large values and invalid (fake) encrypted inputs/proofs for security.
+- All tests were run on Sepolia with a real wallet.
+
+### Frontend Integration
+- Explored how to connect a wallet (Metamask) and interact with the contract from a React frontend.
+- Learned to use Zama's FHEVM JS SDK (@fhevmjs/core) for client-side encryption and decryption.
+- Outlined steps for sending encrypted transactions and decrypting results in the browser.
+
+### Result
+- Demonstrated end-to-end encrypted smart contract development and testing, both backend (Hardhat) and frontend (React/JS SDK).
+- Ready to contribute to Zama Guild or similar FHEVM projects with hands-on experience.
+
 ## 📄 License
 
 This project is licensed under the BSD-3-Clause-Clear License. See the [LICENSE](LICENSE) file for details.
